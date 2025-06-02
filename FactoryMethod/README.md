@@ -1,20 +1,55 @@
-Factory Method is a creational design pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.
+# 🏭 Notificación API - Patrón Factory Method en Spring Boot
+
+Este proyecto es una demostración práctica del **patrón de diseño Factory Method** utilizando **Spring Boot**. La aplicación expone una API REST que permite enviar notificaciones de diferentes tipos (`EMAIL`, `SMS`, `PUSH`) mediante la creación dinámica del objeto adecuado en tiempo de ejecución.
+
+---
+
+## 📦 Tecnologías utilizadas
+
+- Java 17+
+- Spring Boot 3.x
+- Maven
+
+---
+
+## 🎯 Objetivo
+
+El objetivo de este proyecto es demostrar cómo aplicar el patrón de diseño **Factory Method**, que permite delegar la creación de objetos a una subclase o clase fábrica en lugar de instanciar directamente con `new`.
+
+---
+
+## 🧠 ¿Qué es el patrón Factory Method?
+
+El **Factory Method** es un patrón de creación que proporciona una interfaz para crear objetos en una superclase, pero permite que las subclases alteren el tipo de objetos que se crean. Promueve:
+
+- Desacoplamiento de código cliente y clases concretas.
+- Extensibilidad sin modificar el código existente (principio abierto/cerrado).
+
+---
+
+## 🧱 Estructura del proyecto
 
 
-## Problem
-Imagine that you’re creating a logistics management application. The first version of your app can only handle transportation by trucks, so the bulk of your code lives inside the Truck class.
+---
 
-After a while, your app becomes pretty popular. Each day you receive dozens of requests from sea transportation companies to incorporate sea logistics into the app.
+## ⚙️ Cómo funciona
 
-Great news, right? But how about the code? At present, most of your code is coupled to the Truck class. Adding Ships into the app would require making changes to the entire codebase. Moreover, if later you decide to add another type of transportation to the app, you will probably need to make all of these changes again.
+1. El cliente (controlador REST) recibe una solicitud con el tipo de notificación (`type`) y el mensaje.
+2. Llama a `NotificationFactory.createNotification(type)`.
+3. La fábrica devuelve una instancia concreta (`EmailNotification`, `SmsNotification`, etc.).
+4. Se llama al método `notifyUser()` del objeto retornado.
 
-As a result, you will end up with pretty nasty code, riddled with conditionals that switch the app’s behavior depending on the class of transportation objects.
+---
 
-## Solution
-The Factory Method pattern suggests that you replace direct object construction calls (using the new operator) with calls to a special factory method. Don’t worry: the objects are still created via the new operator, but it’s being called from within the factory method. Objects returned by a factory method are often referred to as products.
+## 📬 Ejemplo de uso
 
-At first glance, this change may look pointless: we just moved the constructor call from one part of the program to another. However, consider this: now you can override the factory method in a subclass and change the class of products being created by the method.
+### 📡 Endpoint
 
-There’s a slight limitation though: subclasses may return different types of products only if these products have a common base class or interface. Also, the factory method in the base class should have its return type declared as this interface.
+```http
+POST /api/notify?type=email&message=Hola%20usuario
 
-For example, both Truck and Ship classes should implement the Transport interface, which declares a method called deliver. Each class implements this method differently: trucks deliver cargo by land, ships deliver cargo by sea. The factory method in the RoadLogistics class returns truck objects, whereas the factory method in the SeaLogistics class returns ships.
+
+
+
+
+curl -X POST "http://localhost:8080/api/notify?type=email&message=Hola%20usuario"
