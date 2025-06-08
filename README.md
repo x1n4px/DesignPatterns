@@ -6,7 +6,7 @@
 
 [Abstract Factory](https://refactoring.guru/es/design-patterns/abstract-factory) ✔️
 
-[Adapter](https://refactoring.guru/es/design-patterns/adapter)
+[Adapter](https://refactoring.guru/es/design-patterns/adapter)✔️
 
 [Prototype](https://refactoring.guru/es/design-patterns/prototype)
 
